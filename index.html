@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html lang='en' class=''>
+<html lang="en" >
 
 <head>
+  <meta charset="UTF-8">
+  <title>rtp1</title>
 
-  <meta charset='UTF-8'>
-  <title>RTP1</title>
+    <link rel="canonical" href="https://codepen.io/turan-furkan-topak/pen/NZpybP">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
-  <meta name="robots" content="noindex">
-
-
+  <link rel='stylesheet' href='https://unpkg.com/plyr@3/dist/plyr.css'>
+  
 <style>
-    .overlay {
+.container {
+	margin: 20px auto;
+	width: 600px;
+}
+video {
+	width: 100%;
+}
+.overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -19,57 +28,62 @@
   background: black;
   z-index: 10;
 }
+  
   </style>
-	</head>
 
-<body>
-	<video controls crossorigin playsinline autoplay
-				 hidden
-				 >
-				<source src="https://antennaamdnoenc.akamaized.net/ant1_akamai/abr/playlist.m3u8" type="application/x-mpegURL"> 
-				 
-				 </video>
+  <script>
+  window.console = window.console || function(t) {};
+</script>
 
-  <iframe src="//popcdn.day/play.php?stream=RTP1"  allow="encrypted-media" class="overlay" allowfullscreen="yes" scrolling="no" frameborder="0"></iframe>
+  
+  
+</head>
 
-</div>
+<body translate="no">
+  <div class="container">
+	<video controls crossorigin playsinline autoplay hidden poster=""></video>
+
+ <iframe id="video" src="//popcdn.day/play.php?stream=RTP1"  allow="encrypted-media" class="overlay" allowfullscreen="yes" scrolling="no" frameborder="0"></iframe> 
+  
+  
+  </div>
 <!-- Plyr resources and browser polyfills are specified in the pen settings -->
 <!-- Hls.js 0.9.x and 0.10.x both have critical bugs affecting this demo. Using fixed git hash to when it was working (0.10.0 pre-release), until https://github.com/video-dev/hls.js/issues/1790 has been resolved -->
 <script src="https://cdn.rawgit.com/video-dev/hls.js/18bb552/dist/hls.min.js"></script>
-
-<script>
-
+  <script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL'></script>
+<script src='https://unpkg.com/plyr@3'></script>
+      <script id="rendered-js" >
 document.addEventListener('DOMContentLoaded', () => {
-	const source = 'https://wideiptv.top/RTP1/tracks-a1/index.fmp4.m3u8?token=ac6b1d07e80db2576333ba4ecbb608eeb1fb60cb-0434d34b5007fef9e7667caa0ca63fc5-1713126891-1713116091';
-	const video = document.querySelector('video');
-	
-	// For more options see: https://github.com/sampotts/plyr/#options
-	// captions.update is required for captions to work with hls.js
-	const player = new Plyr(video, {captions: {active: true, update: true, language: 'en'}});
-	
-	if (!Hls.isSupported()) {
-		video.src = source;
-	} else {
-		// For more Hls.js options, see https://github.com/dailymotion/hls.js
-		const hls = new Hls();
-		hls.loadSource(source);
-		hls.attachMedia(video);
-		window.hls = hls;
-		
-		// Handle changing captions
-		player.on('languagechange', () => {
-			// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-			setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
-		});
-	}
-	
-	// Expose player so it can be used from the console
-	window.player = player;
+  const source = 'https://wideiptv.top/RTP1/tracks-a1/index.fmp4.m3u8?token=34cd16c23aa67fbf5f687779a31ba781f1fbdb8a-0664bad09b9fa0d4a9e477caec18aa72-1713133569-1713122769';
+  const video = document.querySelector('video');
+
+  // For more options see: https://github.com/sampotts/plyr/#options
+  // captions.update is required for captions to work with hls.js
+  const player = new Plyr(video, { captions: { active: true, update: true, language: 'en' } });
+
+  if (!Hls.isSupported()) {
+    video.src = source;
+  } else {
+    // For more Hls.js options, see https://github.com/dailymotion/hls.js
+    const hls = new Hls();
+    hls.loadSource(source);
+    hls.attachMedia(video);
+    window.hls = hls;
+
+    // Handle changing captions
+    player.on('languagechange', () => {
+      // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+      setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
+    });
+  }
+var iframe = document.getElementById('video');
+  // Expose player so it can be used from the console
+  window.player = player;
 });
+//# sourceURL=pen.js
+    </script>
 
-
-</script>
-	
-	</body>
+  
+</body>
 
 </html>
